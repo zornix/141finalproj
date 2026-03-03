@@ -18,7 +18,7 @@ import urllib3
 import time
 import json
 import os
-import pandas
+# import pandas
 from datetime import datetime, timezone
 import json
 
@@ -53,8 +53,14 @@ write as json to CURSOR_FILE
 """
 
 def save_cursor(after: str | None) -> None:
-    # TODO: implement
+    cursor_dict = {
+        "after": after,
+        "last_run": datetime.now().isoformat()
+        }
+    with open(CURSOR_FILE, "w") as f:
+        json.dump(cursor_dict, f)
     pass
+
 
 
 
@@ -128,7 +134,7 @@ def fetch_page(subreddit: str = "UCDavis", sort: str = "new",
 
     return (data, cursor)
 
-
+save_cursor(fetch_page()[1])
 """
 this function is the orchestrator of the extract stage of our pipeline
 

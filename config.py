@@ -29,7 +29,7 @@ TABLE_NAME = "posts"
 
 
 # this is the file that persists after every extract stage, so we can pick up where we left off (not re-scraping the same posts)
-CURSOR_FILE = "ETL/.cursor_state.json"
+CURSOR_FILE = "cursor_state.json"
 
 # emoji regex pattern
 EMOJI_PATTERN = re.compile(
