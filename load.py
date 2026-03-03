@@ -19,7 +19,14 @@ takes in a connection to the db and creates the table with the needed schema
 
 def create_table(conn: sqlite3.Connection) -> None:
     # TODO: implement
-    pass
+    db = sql.connect(DB_PATH)
+    cur = db.execute("""CREATE TABLE new_table(
+                     id varchar(255), title varchar(255), selftext varchar(255),
+                     author varchar(255), timestamp varchar(255),
+                     upvotes int,  upvote_ratio int, numcomments int, spoiler int, 
+                     flair varchar(255), has_Image int)""")
+    db.commit()
+    
 
 
 
