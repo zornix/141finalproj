@@ -11,10 +11,13 @@ The core functionality is:
 """
 
 
+from wsgiref import headers
+
 import requests
 import time
 import json
 import os
+import pandas
 from datetime import datetime, timezone
 
 
@@ -85,11 +88,12 @@ pandas has a function to convert this to a datetime object: pd.to_datetime(times
 def is_old_enough(post_data: dict) -> bool:
     #post_data is a dictionary of post data that we can access from the json responce
     # TODO: implement
-    pass
-
-
-
-
+    response = requests.get(REDDIT_JSON_URL, headers=headers)
+    timestamp = pd.to_datetime(post_data["created_utc"], unit="s") 
+    if timestamp >= MIN_POST_AGE_HOURS:
+        return True
+    return False
+    
 
 
 
