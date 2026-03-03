@@ -14,15 +14,17 @@ The core functionality is:
 from wsgiref import headers
 
 import requests
+import urllib3
 import time
 import json
 import os
 import pandas
 from datetime import datetime, timezone
+import json
 
 
 # import constants from config.py
-from ETL.config import (
+from config import (
     HEADERS,
     REDDIT_JSON_URL,
     CURSOR_FILE,
@@ -32,7 +34,7 @@ from ETL.config import (
 )
 
 
-
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 """
 this function will save the cursor point to the disk as a file at the end of every extraction.
@@ -94,11 +96,11 @@ def is_old_enough(post_data: dict) -> bool:
     #post_data is a dictionary of post data that we can access from the json responce
     # TODO: implement
     response = requests.get(REDDIT_JSON_URL, headers=headers)
-    timestamp = pd.to_datetime(post_data["created_utc"], unit="s") 
+    timestamp = pd.to_datetime(post_data["created_utc"], unit="s")
     if timestamp >= MIN_POST_AGE_HOURS:
         return True
     return False
-    
+
 
 
 
@@ -115,16 +117,16 @@ what this function should do:
 """
 
 
-def fetch_page(subreddit: str, sort: str = "new",
+def fetch_page(subreddit: str = "UCDavis", sort: str = "new",
                limit: int = DEFAULT_BATCH_SIZE,
                after: str | None = None) -> tuple[list[dict], str | None]:
 
-    # TODO: implement
-    pass
+    url = f"https://www.reddit.com/r/{subreddit}/{sort}.json?limit={limit}"
+    response = requests.get(url, headers = HEADERS, timeout = 10, verify = False).json()
+    cursor = response.get('data')['after']
+    data = response['data']['children']
 
-
-
-
+    return (data, cursor)
 
 
 """
@@ -138,6 +140,15 @@ print a summary of how many posts were fetched and how many of those passed the 
 def extract(subreddit: str, sort: str = "new",
             batch_size: int = DEFAULT_BATCH_SIZE,
             resume: bool = True) -> list[dict]:
+
+    cursor = load_cursor()
+    fetch = fetch_page(cursor)
+    data = fetch[0]
+    save_cursor(fetch[1])
+
+
+
+
 
     #if resume is True, load the cursor from the file, otherwise set after = None
     #call the other functions here
