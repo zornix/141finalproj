@@ -36,8 +36,15 @@ the reddit json usually has image data in preview -> images.
 if that list exists and is not empty, return 1, else return 0.
 """
 def has_image(post_data: dict) -> int:
-    # TODO: implement
-    pass
+    try:
+        images = post_data.get["preview"]
+        if images:
+            return 1
+        else:
+            return 0
+    except:
+        print("Image error")
+        return 0
 
 
 """
