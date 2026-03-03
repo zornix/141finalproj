@@ -41,13 +41,17 @@ def has_image(post_data: dict) -> int:
 
 
 """
-this function will check if the post is a self post and return 1 or 0.
+this function will check if the post has a link and return 1 or 0.
 
 reddit provides this in the "is_self" boolean field.
 """
-def is_self_post(post_data: dict) -> int:
-    # TODO: implement
-    pass
+def has_link(post_data: dict) -> int:
+    # return 1 if post is not a self post 
+    if post_data.get("is_self") == True:
+        return 0
+    else:
+        return 1
+
 
 
 # feature engineering helpers
