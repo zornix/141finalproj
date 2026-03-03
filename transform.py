@@ -62,7 +62,7 @@ this function will return the character length of the cleaned title.
 
 def compute_title_length(cleaned_title: str) -> int:
     # TODO: implement
-    pass
+    return len(cleaned_title)
 
 
 """
@@ -121,7 +121,8 @@ use max(upvotes, 1) to avoid division by zero.
 """
 def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
     # TODO: implement
-    pass
+    ratio = num_comments / max(upvotes, 1)
+    return ratio
 
 
 # top-level transform functions
@@ -130,7 +131,7 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
 this function will transform one raw reddit post dict into a flat dict.
 
 what this function should do:
-    clean title and selftext
+    clean title and selftext        
     copy core reddit fields we need for the db
     compute all engineered features
     return one dictionary with all final columns
