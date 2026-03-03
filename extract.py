@@ -67,7 +67,12 @@ return the value of the "after" key from the json file.
 return None if the file is missing or empty.
 """
 def load_cursor() -> str | None:
-    # TODO: implement
+    try:
+        with open(CURSOR_FILE, "r") as file:
+            data = json.load(file)
+            return data("after")
+    except:
+        return None
     pass
 
 
