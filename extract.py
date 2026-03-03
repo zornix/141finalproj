@@ -72,7 +72,7 @@ def load_cursor() -> str | None:
     try:
         with open(CURSOR_FILE, "r") as file:
             data = json.load(file)
-            return data("after")
+            return data.get("after")
     except:
         return None
     pass
