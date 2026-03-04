@@ -61,7 +61,6 @@ def has_video(post_data: dict) -> int:
 
 # This function will detect if a post has a link and return 1 or 0.
 def has_link(post_data: dict) -> int:
-    # return 1 if post conains a link, else 0.
     # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
     if post_data.get("is_self") == True:
         return 0
@@ -120,14 +119,10 @@ def time_category(created_utc: float) -> str:
     else:
         return "late_night"
 
-"""
-this function will return the weekday name from created_utc.
 
-example outputs: Monday, Tuesday, Wednesday.
-"""
+# This function will compute the day of the week that the post was created, based on the created_utc from json.
 def compute_day_of_week(created_utc: float) -> str:
     return pd.to_datetime(created_utc, unit="s", utc=True).day_name()
-
 
 # This function checks if the title contains a question mark.
 
