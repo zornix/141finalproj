@@ -54,13 +54,10 @@ def has_image(post_data: dict) -> int:
         return 0
 
 
-"""
-this function will check if the post has a link and return 1 or 0.
 
-reddit provides this in the "is_self" boolean field.
-"""
 def has_link(post_data: dict) -> int:
-    # return 1 if post is not a self post 
+    # return 1 if post conains a link, else 0. 
+    # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
     if post_data.get("is_self") == True:
         return 0
     else:
