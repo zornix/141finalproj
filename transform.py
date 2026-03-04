@@ -162,6 +162,28 @@ def transform_post(post_data: dict) -> dict:
     num_comments = post_data.get("num_comments", 0)
     upvotes = post_data.get("upvotes", 0)
 
+    post_image = has_image(post_data)
+    post_link = has_link(post_data)
+    title_length = compute_title_length(clean_title)
+    selftext_length = compute_selftext_length(clean_selftext)
+    title_words = compute_title_word_count(clean_title)
+    selftext_words = compute_title_word_count(clean_selftext)
+    hour_posted = compute_hour_posted(updated_utc)
+    day_posted = compute_day_of_week(updated_utc)
+    question = is_question(clean_title)
+    engagement_ratio = compute_engagement_ratio(num_comments, upvotes)
+    return {
+        "image": post_image,
+        "link": post_link,
+        "title_length": title_length,
+        "selftext_length": selftext_length,
+        "title_words": title_words,
+        "selftext_words": selftext_words,   
+        "hour_posted": hour_posted,
+        "day_posted": day_posted,
+        "question": question,
+        "engagement_ratio": engagement_ratio
+     }
     pass
 
 
