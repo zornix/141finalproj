@@ -101,8 +101,11 @@ pandas has a function to convert this to a datetime object: pd.to_datetime(times
 def is_old_enough(post_data: dict) -> bool:
     #post_data is a dictionary of post data that we can access from the json responce
     # TODO: implement
-    timestamp = pd.to_datetime(post_data["created_utc"], unit="s")
-    if timestamp >= MIN_POST_AGE_HOURS:
+    timestamp = post_data.get("created_utc")
+    current_time = time.time() #current time in seconds since epoch
+    difference = current_time - timestamp # in seconds
+    hour = difference/3600 # converting to hours
+    if hour >= MIN_POST_AGE_HOURS:
         return True
     return False
 
