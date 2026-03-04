@@ -15,14 +15,8 @@ from config import EMOJI_PATTERN
 
 # cleaning helpers
 
-"""
-this function will clean text fields from reddit.
-
-what this function should do:
-    remove emojis using EMOJI_PATTERN from config.py
-    collapse repeated whitespace into single spaces
-    return None if input is not a string or becomes empty after cleaning
-"""
+# This function will clean the text by removing emojis and collapsing whitespace. 
+# If the input is not a string or becomes empty after cleaning, it will return None.
 def clean_text(text: str) -> str | None:
     if not isinstance(text, str):
         return None
@@ -35,22 +29,15 @@ def clean_text(text: str) -> str | None:
 
 # detection helpers
 
-"""
-this function will detect if a post has an image and return 1 or 0.
-
-the reddit json usually has image data in preview -> images.
-if that list exists and is not empty, return 1, else return 0.
-"""
-
-# checks whether or not the post includes an image
-# gets data on the preview, then on the image itself
-# if there is an image, return 1 for true and 0 for false
+# This function will detect if a post has an image and return 1 or 0.
 def has_image(post_data: dict) -> int:
     try:
+        # gets data on the preview, then on the image itself
         images = post_data.get("preview")
         images = post_data.get("images")
+        # checks whether or not the post includes an image
         if images:
-            return 1
+            return 1 # if there is an image, return 1 for true and 0 for false
         else:
             return 0
     except:
