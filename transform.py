@@ -139,7 +139,6 @@ ratio = num_comments / max(upvotes, 1)
 use max(upvotes, 1) to avoid division by zero.
 """
 def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
-    # TODO: implement
     ratio = num_comments / (max(upvotes, 1))
     return ratio
 
