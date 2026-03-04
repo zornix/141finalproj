@@ -15,14 +15,8 @@ from config import EMOJI_PATTERN
 
 # cleaning helpers
 
-"""
-this function will clean text fields from reddit.
-
-what this function should do:
-    remove emojis using EMOJI_PATTERN from config.py
-    collapse repeated whitespace into single spaces
-    return None if input is not a string or becomes empty after cleaning
-"""
+# This function will clean the text by removing emojis and collapsing whitespace. 
+# If the input is not a string or becomes empty after cleaning, it will return None.
 def clean_text(text: str) -> str | None:
     if not isinstance(text, str):
         return None
@@ -35,38 +29,31 @@ def clean_text(text: str) -> str | None:
 
 # detection helpers
 
-"""
-this function will detect if a post has an image and return 1 or 0.
-
-the reddit json usually has image data in preview -> images.
-if that list exists and is not empty, return 1, else return 0.
-"""
-
-# checks whether or not the post includes an image
-# gets data on the preview, then on the image itself
-# if there is an image, return 1 for true and 0 for false
+# This function will detect if a post has an image and return 1 or 0.
 def has_image(post_data: dict) -> int:
     try:
+        # gets data on the preview, then on the image itself
         images = post_data.get("preview")
         images = post_data.get("images")
+        # checks whether or not the post includes an image
         if images:
-            return 1
+            return 1 # if there is an image, return 1 for true and 0 for false
         else:
             return 0
     except:
         print("Image error")
         return 0
 
-# checks whether or not the post includes a video
-# gets data on the video
-# if there is a video, return 1 for true and 0 for false
+
+# This function will detect if a post has a video and return 1 or 0.
 def has_video(post_data: dict) --> int:
     try:
-        videos = post_data.get("videos")
+        videos = post_data.get("videos") # gets data on the video
+        # checks whether or not the post includes a video
         if videos:
             return 1
         else:
-            return 0
+            return 0 # if there is a video, return 1 for true and 0 for false
     except:
         print("Video error")
         return 0
@@ -202,6 +189,28 @@ def transform_post(post_data: dict) -> dict:
     num_comments = post_data.get("num_comments", 0)
     upvotes = post_data.get("upvotes", 0)
     
+    post_image = has_image(post_data)
+    post_link = has_link(post_data)
+    title_length = compute_title_length(clean_title)
+    selftext_length = compute_selftext_length(clean_selftext)
+    title_words = compute_title_word_count(clean_title)
+    selftext_words = compute_title_word_count(clean_selftext)
+    hour_posted = compute_hour_posted(updated_utc)
+    day_posted = compute_day_of_week(updated_utc)
+    question = is_question(clean_title)
+    engagement_ratio = compute_engagement_ratio(num_comments, upvotes)
+    return {
+        "image": post_image,
+        "link": post_link,
+        "title_length": title_length,
+        "selftext_length": selftext_length,
+        "title_words": title_words,
+        "selftext_words": selftext_words,   
+        "hour_posted": hour_posted,
+        "day_posted": day_posted,
+        "question": question,
+        "engagement_ratio": engagement_ratio
+     }
     pass
 
 
