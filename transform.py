@@ -157,8 +157,9 @@ what this function should do:
 """
 
 def transform_post(post_data: dict) -> dict:
-    cleanup_title = cleaned_title(post_data.get("title"))
-    cleanup_selftext = cleaned_text(post_data.get("text"))
+    #retrieve the data we scraped and cleaned and place it into a variable
+    clean_title = clean_text(post_data.get("title"))
+    clean_selftext = clean_text(post_data.get("text"))
 
     updated_utc = post_data.get("created_utc")
     num_comments = post_data.get("num_comments", 0)
