@@ -156,7 +156,13 @@ what this function should do:
 """
 
 def transform_post(post_data: dict) -> dict:
-    # TODO: implement
+    cleanup_title = cleaned_title(post_data.get("title"))
+    cleanup_selftext = cleaned_text(post_data.get("selftext"))
+    
+    updated_utc = post_data.get("created_utc")
+    num_comments = post_data.get("num_comments", 0)
+    upvotes = post_data.get("upvotes", 0)
+
     pass
 
 
