@@ -96,14 +96,11 @@ def compute_selftext_length(cleaned_selftext: str | None) -> int:
         return 0
     return len(cleaned_selftext)
 
-
-"""
-this function will count how many words are in the cleaned title.
-"""
+# This function will count how many words are in the cleaned title.
 def compute_title_word_count(cleaned_title: str) -> int:
     if cleaned_title is None:
         return 0
-    return len(cleaned_title.split())
+    return len(cleaned_title.split()) # Splits the cleaned title into words and gets length
 
 
 """
