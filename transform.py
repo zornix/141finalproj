@@ -41,6 +41,10 @@ this function will detect if a post has an image and return 1 or 0.
 the reddit json usually has image data in preview -> images.
 if that list exists and is not empty, return 1, else return 0.
 """
+
+# checks whether or not the post includes an image
+# gets data on the preview, then on the image itself
+# if there is an image, return 1 for true and 0 for false
 def has_image(post_data: dict) -> int:
     try:
         images = post_data.get("preview")
@@ -53,8 +57,22 @@ def has_image(post_data: dict) -> int:
         print("Image error")
         return 0
 
-
-
+# checks whether or not the post includes a video
+# gets data on the video
+# if there is a video, return 1 for true and 0 for false
+def has_video(post_data: dict) --> int:
+    try:
+        videos = post_data.get("videos")
+        if videos:
+            return 1
+        else:
+            return 0
+    except:
+        print("Video error")
+        return 0
+    
+# checks whether or not the post includes a link
+# if there is a link, return 1 for true and 0 for false
 def has_link(post_data: dict) -> int:
     # return 1 if post conains a link, else 0. 
     # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
