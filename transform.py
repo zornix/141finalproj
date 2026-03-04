@@ -103,18 +103,14 @@ def compute_title_word_count(cleaned_title: str) -> int:
     return len(cleaned_title.split()) # Splits the cleaned title into words and gets length
 
 
-"""
-this function will get the hour (0-23) from created_utc.
-
-created_utc is a unix timestamp from reddit json.
-"""
+# This function will compute the hour (0-23) that the post was created, based on the created_utc from json.
 def compute_hour_posted(created_utc: float) -> int:
     return pd.to_datetime(created_utc, unit="s", utc=True).hour
 
-# separates the hours of the day into 4 categories
-# converts the float variable into a string
-def time_category(created_utc: float) --> str:
+# This function will categorize the hour of the day into morning, afternoon, night, and late night.
+def time_category(created_utc: float) -> str:
     hour = compute_hour_posted(created_utc)
+    # Using Military Hours to categorize 
     if 5 <= hour < 11:
         return "morning"
     elif 11 <= hour < 17:
