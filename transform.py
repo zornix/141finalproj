@@ -129,11 +129,10 @@ def compute_day_of_week(created_utc: float) -> str:
     return pd.to_datetime(created_utc, unit="s", utc=True).day_name()
 
 # This function checks if the title contains a question mark.
-
 def is_question(cleaned_title: str) -> int:
-    if cleaned_title is None or cleaned_title == "":
+    if cleaned_title is None or cleaned_title == "": # First checks to see if the cleaned title is None or empty string
         return 0
-    if "?" is in cleaned_title:
+    if "?" in cleaned_title:
         return 1
     else:
         return 0
@@ -143,21 +142,24 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
     ratio = num_comments / (max(upvotes, 1))
     return ratio
 
+#Getting number of keywords
+total_keywords = []
+def count_keywords(cleaned_title: str) -> int:
+    keywords = ["cheeto", "housing", "taps", "silo", "unitrans", "professor", "curve", "ship", "waitlist"]
+    num_keywords = []
+    for word in keywords:
+        if word in cleaned_title.lower():
+            num_keywords.append(1)
+            total_keywords.append(word)
+        else:
+            num_keywords.append(0)
+    return sum(num_keywords)
 
 
 
 # TOP-LEVEL TRANSFORM FUNCTIONS
 
-"""
-this function will transform one raw reddit post dict into a flat dict.
-
-what this function should do:
-    clean title and selftext
-    copy core reddit fields we need for the db
-    compute all engineered features
-    return one dictionary with all final columns
-"""
-
+# This function will transform one raw reddit post dict into a flat dict.
 def transform_post(post_data: dict) -> dict:
     #retrieve the data we scraped and cleaned and place it into a variable
     clean_title = clean_text(post_data.get("title"))
@@ -184,7 +186,7 @@ def transform_post(post_data: dict) -> dict:
     time_category = time_category(updated_utc)
     day_posted = compute_day_of_week(updated_utc)
     engagement_ratio = compute_engagement_ratio(num_comments, upvotes)
-    return {
+    return { 
         "image": post_image,
         "video": post_video,
         "link": post_link,
@@ -197,16 +199,12 @@ def transform_post(post_data: dict) -> dict:
         "day_posted": day_posted,
         "question": question,
         "engagement_ratio": engagement_ratio
-     }
+     } #return one dictionary with all final columns
     pass
 
 
-"""
-this function is the top-level orchestrator for transform stage.
 
-it should convert a list of raw post dicts into a clean pandas DataFrame.
-if the input list is empty, return an empty DataFrame.
-"""
+# This function will transform a list of raw reddit post dicts into a clean pandas DataFrame. If the input list is empty, return an empty DataFrame.
 def transform(raw_posts: list[dict]) -> pd.DataFrame:
     for post in raw_posts:
         transform_post.append(transform_post(post_data))
