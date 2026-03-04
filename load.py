@@ -9,7 +9,7 @@ This file should create the table if it doesn't exis in the db, and then load th
 import sqlite3
 import pandas as pd
 
-from ETL.config import DB_PATH, TABLE_NAME
+from config import DB_PATH, TABLE_NAME
 
 
 """
@@ -20,13 +20,20 @@ takes in a connection to the db and creates the table with the needed schema
 def create_table(conn: sqlite3.Connection) -> None:
     # TODO: implement
     cur = conn.execute(f"""CREATE TABLE IF NOT EXISTS {TABLE_NAME}(
-                     id varchar(255), title varchar(255), selftext varchar(255),
-                     author varchar(255), timestamp varchar(255),
-                     upvotes int,  upvote_ratio int, numcomments int, spoiler int, 
-                     flair varchar(255), has_Image int)""")
-    
+                    id varchar(255),
+                    title varchar(255),
+                    selftext varchar(255),
+                    author varchar(255),
+                    timestamp varchar(255),
+                    upvotes int,
+                    upvote_ratio int,
+                    numcomments int,
+                    spoiler int,
+                    flair varchar(255),
+                    has_Image int)""")
+
     conn.commit()
-    
+
 
 
 

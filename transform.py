@@ -15,7 +15,7 @@ from config import EMOJI_PATTERN
 
 # cleaning helpers
 
-# This function will clean the text by removing emojis and collapsing whitespace. 
+# This function will clean the text by removing emojis and collapsing whitespace.
 # If the input is not a string or becomes empty after cleaning, it will return None.
 def clean_text(text: str) -> str | None:
     if not isinstance(text, str):
@@ -32,23 +32,24 @@ def clean_text(text: str) -> str | None:
 # This function will detect if a post has an image and return 1 or 0.
 def has_image(post_data: dict) -> int:
     try:
-        # gets data on the preview, then on the image itself
-        images = post_data.get("preview")
-        images = post_data.get("images")
-        # checks whether or not the post includes an image
-        if images:
-            return 1 # if there is an image, return 1 for true and 0 for false
+        if post_data.get("post_hint") == "image":
+            return 1
         else:
-            return 0
+            images = post_data.get("preview")
+            images = post_data.get("images")
+            if images:
+                return 1
+            else:
+                return 0
     except:
-        print("Image error")
+        print("has_image error")
         return 0
 
 
 # This function will detect if a post has a video and return 1 or 0.
 def has_video(post_data: dict) -> int:
     try:
-        videos = post_data.get("videos") # gets data on the video
+        videos = post_data.get("is_video") # gets data on the video
         # checks whether or not the post includes a video
         if videos:
             return 1
@@ -57,15 +58,16 @@ def has_video(post_data: dict) -> int:
     except:
         print("Video error")
         return 0
-    
+
 
 # This function will detect if a post has a link and return 1 or 0.
 def has_link(post_data: dict) -> int:
+    # return 1 if post conains a link, else 0.
     # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
     if post_data.get("is_self") == True:
         return 0
     else:
-        return 1    # return 1 if post contains a link, else 0. 
+        return 1    # return 1 if post contains a link, else 0.
 
 
 
@@ -89,7 +91,7 @@ def compute_title_length(cleaned_title: str) -> int:
         return 0
     return len(cleaned_title)
 
-# This function will return the character length of the cleaned selftext. 
+# This function will return the character length of the cleaned selftext.
 def compute_selftext_length(cleaned_selftext: str | None) -> int:
     if cleaned_selftext is None:
         return 0
@@ -147,7 +149,7 @@ def is_question(cleaned_title: str) -> int:
         return 1
     else:
         return 0
-    
+
 
 """
 this function will compute engagement ratio for a post.
@@ -166,7 +168,7 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
 this function will transform one raw reddit post dict into a flat dict.
 
 what this function should do:
-    clean title and selftext        
+    clean title and selftext
     copy core reddit fields we need for the db
     compute all engineered features
     return one dictionary with all final columns
@@ -180,7 +182,7 @@ def transform_post(post_data: dict) -> dict:
     updated_utc = post_data.get("created_utc")
     num_comments = post_data.get("num_comments", 0)
     upvotes = post_data.get("upvotes", 0)
-    
+
     post_image = has_image(post_data)
     post_link = has_link(post_data)
     title_length = compute_title_length(clean_title)
@@ -197,7 +199,7 @@ def transform_post(post_data: dict) -> dict:
         "title_length": title_length,
         "selftext_length": selftext_length,
         "title_words": title_words,
-        "selftext_words": selftext_words,   
+        "selftext_words": selftext_words,
         "hour_posted": hour_posted,
         "day_posted": day_posted,
         "question": question,
