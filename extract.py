@@ -102,7 +102,7 @@ def is_old_enough(post_data: dict) -> bool:
     #post_data is a dictionary of post data that we can access from the json responce
     # TODO: implement
     timestamp = post_data.get("created_utc")
-    current_time = time.time() #current time in seconds since epoch
+    current_time = time.time() #current time in seconds 
     difference = current_time - timestamp # in seconds
     hour = difference/3600 # converting to hours
     if hour >= MIN_POST_AGE_HOURS:
