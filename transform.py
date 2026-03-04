@@ -27,7 +27,7 @@ def clean_text(text: str) -> str | None:
     return text
 
 
-# detection helpers
+# DETECTION HELPERS
 
 # This function will detect if a post has an image and return 1 or 0.
 def has_image(post_data: dict) -> int:
@@ -46,7 +46,7 @@ def has_image(post_data: dict) -> int:
 
 
 # This function will detect if a post has a video and return 1 or 0.
-def has_video(post_data: dict) --> int:
+def has_video(post_data: dict) -> int:
     try:
         videos = post_data.get("videos") # gets data on the video
         # checks whether or not the post includes a video
@@ -58,35 +58,26 @@ def has_video(post_data: dict) --> int:
         print("Video error")
         return 0
     
-# checks whether or not the post includes a link
-# if there is a link, return 1 for true and 0 for false
+
+# This function will detect if a post has a link and return 1 or 0.
 def has_link(post_data: dict) -> int:
-    # return 1 if post conains a link, else 0. 
     # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
     if post_data.get("is_self") == True:
         return 0
     else:
-        return 1
+        return 1    # return 1 if post contains a link, else 0. 
 
 
 
-# feature engineering helpers
+# FEATURE ENGINEERING HELPERS
 
-"""
-this function will return the character length of the cleaned title.
-"""
-
+# This function will return the character length of the cleaned title.
 def compute_title_length(cleaned_title: str) -> int:
     if cleaned_title is None:
         return 0
     return len(cleaned_title)
 
-
-"""
-this function will return the character length of cleaned selftext.
-
-return 0 if selftext is None.
-"""
+# This function will return the character length of the cleaned selftext. 
 def compute_selftext_length(cleaned_selftext: str | None) -> int:
     if cleaned_selftext is None:
         return 0
