@@ -129,11 +129,10 @@ def compute_day_of_week(created_utc: float) -> str:
     return pd.to_datetime(created_utc, unit="s", utc=True).day_name()
 
 # This function checks if the title contains a question mark.
-
 def is_question(cleaned_title: str) -> int:
-    if cleaned_title is None or cleaned_title == "":
+    if cleaned_title is None or cleaned_title == "": # First checks to see if the cleaned title is None or empty string
         return 0
-    if "?" is in cleaned_title:
+    if "?" in cleaned_title:
         return 1
     else:
         return 0
@@ -142,7 +141,6 @@ def is_question(cleaned_title: str) -> int:
 def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
     ratio = num_comments / (max(upvotes, 1))
     return ratio
-
 
 
 
