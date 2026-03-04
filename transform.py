@@ -146,16 +146,7 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
 
 # TOP-LEVEL TRANSFORM FUNCTIONS
 
-"""
-this function will transform one raw reddit post dict into a flat dict.
-
-what this function should do:
-    clean title and selftext
-    copy core reddit fields we need for the db
-    compute all engineered features
-    return one dictionary with all final columns
-"""
-
+# This function will transform one raw reddit post dict into a flat dict.
 def transform_post(post_data: dict) -> dict:
     #retrieve the data we scraped and cleaned and place it into a variable
     clean_title = clean_text(post_data.get("title"))
@@ -182,7 +173,7 @@ def transform_post(post_data: dict) -> dict:
     time_category = time_category(updated_utc)
     day_posted = compute_day_of_week(updated_utc)
     engagement_ratio = compute_engagement_ratio(num_comments, upvotes)
-    return {
+    return { 
         "image": post_image,
         "video": post_video,
         "link": post_link,
@@ -195,7 +186,7 @@ def transform_post(post_data: dict) -> dict:
         "day_posted": day_posted,
         "question": question,
         "engagement_ratio": engagement_ratio
-     }
+     } #return one dictionary with all final columns
     pass
 
 
