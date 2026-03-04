@@ -41,6 +41,10 @@ this function will detect if a post has an image and return 1 or 0.
 the reddit json usually has image data in preview -> images.
 if that list exists and is not empty, return 1, else return 0.
 """
+
+# checks whether or not the post includes an image
+# gets data on the preview, then on the image itself
+# if there is an image, return 1 for true and 0 for false
 def has_image(post_data: dict) -> int:
     try:
         images = post_data.get("preview")
@@ -53,8 +57,22 @@ def has_image(post_data: dict) -> int:
         print("Image error")
         return 0
 
-
-
+# checks whether or not the post includes a video
+# gets data on the video
+# if there is a video, return 1 for true and 0 for false
+def has_video(post_data: dict) --> int:
+    try:
+        videos = post_data.get("videos")
+        if videos:
+            return 1
+        else:
+            return 0
+    except:
+        print("Video error")
+        return 0
+    
+# checks whether or not the post includes a link
+# if there is a link, return 1 for true and 0 for false
 def has_link(post_data: dict) -> int:
     # return 1 if post conains a link, else 0. 
     # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
@@ -105,6 +123,18 @@ created_utc is a unix timestamp from reddit json.
 def compute_hour_posted(created_utc: float) -> int:
     return pd.to_datetime(created_utc, unit="s", utc=True).hour
 
+# separates the hours of the day into 4 categories
+# converts the float variable into a string
+def time_category(created_utc: float) --> str:
+    hour = compute_hour_posted(created_utc)
+    if 5 <= hour < 11:
+        return "morning"
+    elif 11 <= hour < 17:
+        return "afternoon"
+    elif 17 < hour < 24:
+        return "night"
+    else:
+        return "late_night"
 
 """
 this function will return the weekday name from created_utc.
@@ -140,7 +170,6 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
     return ratio
 
 
-
 # top-level transform functions
 
 """
@@ -161,10 +190,8 @@ def transform_post(post_data: dict) -> dict:
     updated_utc = post_data.get("created_utc")
     num_comments = post_data.get("num_comments", 0)
     upvotes = post_data.get("upvotes", 0)
-
     
-    
-
+    pass
 
 
 """
