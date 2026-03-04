@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from config import EMOJI_PATTERN
 
 
-# cleaning helpers
+# CLEANING HELPERS
 
 # This function will clean the text by removing emojis and collapsing whitespace.
 def clean_text(text: str) -> str | None:
@@ -24,6 +24,8 @@ def clean_text(text: str) -> str | None:
     if text == "": # If the cleaned text is an empty string, it will return None.
         return None
     return text
+
+
 
 
 # DETECTION HELPERS
@@ -61,13 +63,11 @@ def has_video(post_data: dict) -> int:
 
 # This function will detect if a post has a link and return 1 or 0.
 def has_link(post_data: dict) -> int:
-    # return 1 if post conains a link, else 0.
     # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
     if post_data.get("is_self") == True:
         return 0
     else:
         return 1    # return 1 if post contains a link, else 0.
-
 
 
 # This function will detect if a post has a flair and return 1 or 0.
@@ -81,6 +81,9 @@ def has_flair(post_data: dict) -> int:
     except:
         print("Flair error")
         return
+
+
+
 
 # FEATURE ENGINEERING HELPERS
 
@@ -120,14 +123,10 @@ def time_category(created_utc: float) -> str:
     else:
         return "late_night"
 
-"""
-this function will return the weekday name from created_utc.
 
-example outputs: Monday, Tuesday, Wednesday.
-"""
+# This function will compute the day of the week that the post was created, based on the created_utc from json.
 def compute_day_of_week(created_utc: float) -> str:
     return pd.to_datetime(created_utc, unit="s", utc=True).day_name()
-
 
 # This function checks if the title contains a question mark.
 
@@ -139,19 +138,15 @@ def is_question(cleaned_title: str) -> int:
     else:
         return 0
 
-
-"""
-this function will compute engagement ratio for a post.
-
-ratio = num_comments / max(upvotes, 1)
-use max(upvotes, 1) to avoid division by zero.
-"""
+# This function will compute engagement ratio for a post.
 def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
     ratio = num_comments / (max(upvotes, 1))
     return ratio
 
 
-# top-level transform functions
+
+
+# TOP-LEVEL TRANSFORM FUNCTIONS
 
 """
 this function will transform one raw reddit post dict into a flat dict.
