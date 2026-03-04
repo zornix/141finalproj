@@ -37,8 +37,7 @@ def has_image(post_data: dict) -> int:
             return 1
         else:
             images = post_data.get("preview")
-            images = post_data.get("images")
-            if images:
+            if images and images.get("images"):
                 return 1
             else:
                 return 0
@@ -61,8 +60,11 @@ def has_video(post_data: dict) -> int:
         return 0
 
 
-# This function will detect if a post has a link and return 1 or 0.
-def has_link(post_data: dict) -> int:
+
+#A self-post is a post that has no link to a website, image, or video, but instead only contains text.
+# This function will detect if a post is a self post or not and return 1 or 0.
+def has_attachment(post_data: dict) -> int:
+    # return 1 if post conains a link, else 0.
     # using the "is_self" field from reddit json to determine if the post is a self post (text only) or contains a link.
     if post_data.get("is_self") == True:
         return 0
@@ -113,7 +115,7 @@ def compute_hour_posted(created_utc: float) -> int:
 # This function will categorize the hour of the day into morning, afternoon, night, and late night.
 def time_category(created_utc: float) -> str:
     hour = compute_hour_posted(created_utc)
-    # Using Military Hours to categorize 
+    # Using Military Hours to categorize
     if 5 <= hour < 11:
         return "morning"
     elif 11 <= hour < 17:
@@ -165,10 +167,10 @@ def transform_post(post_data: dict) -> dict:
     clean_title = clean_text(post_data.get("title"))
     clean_selftext = clean_text(post_data.get("text"))
 
-    updated_utc = post_data.get("created_utc")
+    updated_utc = post_data.get("created_utc") #need to make this a normal timestamp
     num_comments = post_data.get("num_comments", 0)
     upvotes = post_data.get("upvotes", 0)
-    
+
     # variables related to the title
     title_length = compute_title_length(clean_title)
     title_words = compute_title_word_count(clean_title)
@@ -177,16 +179,34 @@ def transform_post(post_data: dict) -> dict:
     # variables related to the body of text
     post_image = has_image(post_data)
     post_video = has_video(post_data)
-    post_link = has_link(post_data)
+    post_attch = has_attachment(post_data)
     post_flair = has_flair(post_data)
+
     selftext_length = compute_selftext_length(clean_selftext)
     selftext_words = compute_title_word_count(clean_selftext)
-    
+
     # variables related to the time posted and engagement
     time_category = time_category(updated_utc)
     day_posted = compute_day_of_week(updated_utc)
+
+    question = is_question(clean_title)
     engagement_ratio = compute_engagement_ratio(num_comments, upvotes)
-    return { 
+    return {
+        "id": post_data['name'],
+        "timestamp": updated_utc
+        "title": clean_title,
+        "title_length": title_length,
+        "title_words": title_words,
+        "selftext": clean_selftext,
+        "selftext_length": selftext_length,
+        "selftext_words": selftext_words
+        "upvotes": post_data['ups'],
+
+
+
+
+
+
         "image": post_image,
         "video": post_video,
         "link": post_link,
