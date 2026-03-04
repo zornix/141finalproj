@@ -87,26 +87,14 @@ def load_cursor() -> str | None:
 
 
 
-
-
-"""
-this function will check if a post is old enough to be included in our dataset and return a boolean value.
-we only want posts that are at least MIN_POST_AGE_HOURS old.
-
-the json responce contains the "created_utc" timestamp as a float (e.g. 1772418658.0)
-
-pandas has a function to convert this to a datetime object: pd.to_datetime(timestamp, unit="s")
-"""
-
 def is_old_enough(post_data: dict) -> bool:
     #post_data is a dictionary of post data that we can access from the json responce
-    # TODO: implement
     timestamp = post_data.get("created_utc")
     current_time = time.time() #current time in seconds 
     difference = current_time - timestamp # in seconds
     hour = difference/3600 # converting to hours
     if hour >= MIN_POST_AGE_HOURS:
-        return True
+        return True # we only want posts that are at least MIN_POST_AGE_HOURS old.
     return False
 
 
