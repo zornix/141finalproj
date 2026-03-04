@@ -124,13 +124,13 @@ this function will detect if a cleaned title looks like a question.
 return 1 if title ends with "?", else 0.
 """
 def is_question(cleaned_title: str) -> int:
-    if cleaned_title is None:
+    if cleaned_title is None or cleaned_title == "":
         return 0
     if cleaned_title[-1] == "?":
         return 1
     else:
         return 0
-
+    
 
 """
 this function will compute engagement ratio for a post.
