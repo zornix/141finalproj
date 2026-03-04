@@ -113,7 +113,7 @@ def time_category(created_utc: float) --> str:
         return "morning"
     elif 11 <= hour < 17:
         return "afternoon"
-    elif 17 < HOUR < 24:
+    elif 17 < hour < 24:
         return "night"
     else:
         return "late_night"
