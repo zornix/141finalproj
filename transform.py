@@ -108,6 +108,18 @@ created_utc is a unix timestamp from reddit json.
 def compute_hour_posted(created_utc: float) -> int:
     return pd.to_datetime(created_utc, unit="s", utc=True).hour
 
+# separates the hours of the day into 4 categories
+# converts the float variable into a string
+def time_category(created_utc: float) --> str:
+    hour = compute_hour_posted(created_utc)
+    if 5 <= hour < 11:
+        return "morning"
+    elif 11 <= hour < 17:
+        return "afternoon"
+    elif 17 < HOUR < 24:
+        return "night"
+    else:
+        return "late_night"
 
 """
 this function will return the weekday name from created_utc.
@@ -143,7 +155,6 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
     return ratio
 
 
-
 # top-level transform functions
 
 """
@@ -164,7 +175,7 @@ def transform_post(post_data: dict) -> dict:
     updated_utc = post_data.get("created_utc")
     num_comments = post_data.get("num_comments", 0)
     upvotes = post_data.get("upvotes", 0)
-
+    
     pass
 
 
