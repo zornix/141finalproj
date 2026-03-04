@@ -16,13 +16,12 @@ from config import EMOJI_PATTERN
 # cleaning helpers
 
 # This function will clean the text by removing emojis and collapsing whitespace.
-# If the input is not a string or becomes empty after cleaning, it will return None.
 def clean_text(text: str) -> str | None:
-    if not isinstance(text, str):
+    if not isinstance(text, str): # If the input is not a string it will return None.
         return None
     text = EMOJI_PATTERN.sub("", text)
     text = " ".join(text.split())
-    if text == "":
+    if text == "": # If the cleaned text is an empty string, it will return None.
         return None
     return text
 
