@@ -142,6 +142,19 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
     ratio = num_comments / (max(upvotes, 1))
     return ratio
 
+#Getting number of keywords
+total_keywords = []
+def count_keywords(cleaned_title: str) -> int:
+    keywords = ["cheeto", "housing", "taps", "silo", "unitrans", "professor", "curve", "ship", "waitlist"]
+    num_keywords = []
+    for word in keywords:
+        if word in cleaned_title.lower():
+            num_keywords.append(1)
+            total_keywords.append(word)
+        else:
+            num_keywords.append(0)
+    return sum(num_keywords)
+
 
 
 # TOP-LEVEL TRANSFORM FUNCTIONS
