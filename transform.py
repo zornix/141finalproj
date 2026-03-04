@@ -106,8 +106,7 @@ this function will get the hour (0-23) from created_utc.
 created_utc is a unix timestamp from reddit json.
 """
 def compute_hour_posted(created_utc: float) -> int:
-    # TODO: implement
-    pass
+    return pd.to_datetime(created_utc, unit="s", utc=True).hour
 
 
 """
@@ -116,8 +115,7 @@ this function will return the weekday name from created_utc.
 example outputs: Monday, Tuesday, Wednesday.
 """
 def compute_day_of_week(created_utc: float) -> str:
-    # TODO: implement
-    pass
+    return pd.to_datetime(created_utc, unit="s", utc=True).day_name()
 
 
 """
@@ -126,8 +124,12 @@ this function will detect if a cleaned title looks like a question.
 return 1 if title ends with "?", else 0.
 """
 def is_question(cleaned_title: str) -> int:
-    # TODO: implement
-    pass
+    if cleaned_title is None:
+        return 0
+    if cleaned_title[-1] == "?":
+        return 1
+    else:
+        return 0
 
 
 """
