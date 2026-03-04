@@ -170,7 +170,7 @@ def transform_post(post_data: dict) -> dict:
     post_image = has_image(post_data)
     post_video = has_video(post_data)
     post_link = has_link(post_data)
-    flair = has_flair(post_data)
+    post_flair = has_flair(post_data)
     title_length = compute_title_length(clean_title)
     selftext_length = compute_selftext_length(clean_selftext)
     title_words = compute_title_word_count(clean_title)
@@ -181,12 +181,14 @@ def transform_post(post_data: dict) -> dict:
     engagement_ratio = compute_engagement_ratio(num_comments, upvotes)
     return {
         "image": post_image,
+        "video": post_video,
         "link": post_link,
+        "flair": post_flair,
         "title_length": title_length,
         "selftext_length": selftext_length,
         "title_words": title_words,
         "selftext_words": selftext_words,
-        "hour_posted": hour_posted,
+        "time_category": time_category,
         "day_posted": day_posted,
         "question": question,
         "engagement_ratio": engagement_ratio
