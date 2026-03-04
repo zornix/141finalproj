@@ -96,23 +96,24 @@ def fetch_page(after: str | None = None) -> tuple[list[dict], str | None]:
 
 # This function orchestrates the whole extract stage. It fetches a batch of posts, filters out those that are too recent and return a list of valid post data distionaries.
 
-def extract(resume: bool = True) -> list[dict]:
+def extract() -> list[dict]:
     try:
-        if resume:
-            cursor = load_cursor()
-            fetch = fetch_page(cursor)
-            listdata = fetch[0]
-            save_cursor(fetch[1])
-        else:
-            fetch = fetch_page()
-            listdata = fetch[0]
-            save_cursor(fetch[1])
+        cursor = load_cursor()
+        print('Loaded cursor')
+        fetch = fetch_page(cursor)
+        print('Fetched the page')
+        listdata = fetch[0]
+        save_cursor(fetch[1])
+        print('Saved cursor & Data')
     except:
-        print("Error")
+        print("Extract stage fail")
         return []
 
 
     data = [post for post in listdata if is_old_enough(post['data'])]
+    print(f"Removed {len(listdata)-len(data)} post that were not old enough.")
 
 
     return data
+
+extract()
