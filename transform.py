@@ -48,7 +48,7 @@ def has_image(post_data: dict) -> int:
 # This function will detect if a post has a video and return 1 or 0.
 def has_video(post_data: dict) --> int:
     try:
-        videos = post_data.get("videos") # gets data on the video
+        videos = post_data.get("is_video") # gets data on the video
         # checks whether or not the post includes a video
         if videos:
             return 1
@@ -190,12 +190,14 @@ def transform_post(post_data: dict) -> dict:
     upvotes = post_data.get("upvotes", 0)
     
     post_image = has_image(post_data)
+    post_video = has_video(post_data)
     post_link = has_link(post_data)
+    flair = has_flair(post_data)
     title_length = compute_title_length(clean_title)
     selftext_length = compute_selftext_length(clean_selftext)
     title_words = compute_title_word_count(clean_title)
     selftext_words = compute_title_word_count(clean_selftext)
-    hour_posted = compute_hour_posted(updated_utc)
+    time_category = time_category(updated_utc)
     day_posted = compute_day_of_week(updated_utc)
     question = is_question(clean_title)
     engagement_ratio = compute_engagement_ratio(num_comments, upvotes)
