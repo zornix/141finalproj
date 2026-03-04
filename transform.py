@@ -16,13 +16,12 @@ from config import EMOJI_PATTERN
 # cleaning helpers
 
 # This function will clean the text by removing emojis and collapsing whitespace.
-# If the input is not a string or becomes empty after cleaning, it will return None.
 def clean_text(text: str) -> str | None:
-    if not isinstance(text, str):
+    if not isinstance(text, str): # If the input is not a string it will return None.
         return None
     text = EMOJI_PATTERN.sub("", text)
     text = " ".join(text.split())
-    if text == "":
+    if text == "": # If the cleaned text is an empty string, it will return None.
         return None
     return text
 
@@ -97,28 +96,21 @@ def compute_selftext_length(cleaned_selftext: str | None) -> int:
         return 0
     return len(cleaned_selftext)
 
-
-"""
-this function will count how many words are in the cleaned title.
-"""
+# This function will count how many words are in the cleaned title.
 def compute_title_word_count(cleaned_title: str) -> int:
     if cleaned_title is None:
         return 0
-    return len(cleaned_title.split())
+    return len(cleaned_title.split()) # Splits the cleaned title into words and gets length
 
 
-"""
-this function will get the hour (0-23) from created_utc.
-
-created_utc is a unix timestamp from reddit json.
-"""
+# This function will compute the hour (0-23) that the post was created, based on the created_utc from json.
 def compute_hour_posted(created_utc: float) -> int:
     return pd.to_datetime(created_utc, unit="s", utc=True).hour
 
-# separates the hours of the day into 4 categories
-# converts the float variable into a string
-def time_category(created_utc: float) --> str:
+# This function will categorize the hour of the day into morning, afternoon, night, and late night.
+def time_category(created_utc: float) -> str:
     hour = compute_hour_posted(created_utc)
+    # Using Military Hours to categorize 
     if 5 <= hour < 11:
         return "morning"
     elif 11 <= hour < 17:
@@ -137,15 +129,12 @@ def compute_day_of_week(created_utc: float) -> str:
     return pd.to_datetime(created_utc, unit="s", utc=True).day_name()
 
 
-"""
-this function will detect if a cleaned title looks like a question.
+# This function checks if the title contains a question mark.
 
-return 1 if title ends with "?", else 0.
-"""
 def is_question(cleaned_title: str) -> int:
     if cleaned_title is None or cleaned_title == "":
         return 0
-    if cleaned_title[-1] == "?":
+    if "?" is in cleaned_title:
         return 1
     else:
         return 0

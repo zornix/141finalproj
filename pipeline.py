@@ -6,10 +6,10 @@ It should run extract -> transform -> load and then return the data for us to lo
 
 import pandas as pd
 
-from ETL.extract import extract
-from ETL.transform import transform
-from ETL.load import load
-from ETL.config import DB_PATH, DEFAULT_BATCH_SIZE
+from extract import extract
+from transform import transform
+from load import load
+from config import DB_PATH, DEFAULT_BATCH_SIZE
 
 
 
