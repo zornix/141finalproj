@@ -12,11 +12,6 @@ import pandas as pd
 from config import DB_PATH, TABLE_NAME
 
 
-"""
-this function will create the table if it doesn't exist in the db.
-takes in a connection to the db and creates the table with the needed schema
-"""
-
 # This function creates a table in the database if it does not already exists in db. 
 def create_table(conn: sqlite3.Connection) -> None:
     cur = conn.execute(f"""CREATE TABLE IF NOT EXISTS {TABLE_NAME}(
