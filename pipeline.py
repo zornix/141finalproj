@@ -44,7 +44,11 @@ def display_output(df: pd.DataFrame) -> None:
 
     for row in df.iterrows():
         print(f"Title: {row['title']}")
+<<<<<<< HEAD
         print(f"Timestamp: {row['updated_utc']}")
+=======
+        print(f"Time Stamp: {row['hours']}") # used to be created_utc
+>>>>>>> 5f18f31f8c5ca01ac9244e0bd43cc735095c9a4d
         print(f"Time Category: {row['time_category']}")
         print(f"Day Posted: {row['day_posted']}")
         print(f"Title Length: {row['title_length']}")
