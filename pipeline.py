@@ -42,7 +42,7 @@ def display_output(df: pd.DataFrame) -> None:
 
     print("\n========== POSTS PREVIEW ==========\n")
 
-    for i in df.iterrows():
+    for rows in df.iterrows():
         print(f"Title: {row['title']}")
         print(f"Time Stamp: {row['updated_utc']}")
         print(f"Time Category: {row['time_category']}")
