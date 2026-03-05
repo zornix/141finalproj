@@ -151,11 +151,11 @@ def count_keywords(cleaned_title: str) -> int:
     keywords = ["cheeto", "housing", "taps", "silo", "unitrans", "professor", "curve", "ship", "waitlist"]
     num_keywords = []
     for word in keywords:
-        if word in cleaned_title.lower():
-            num_keywords.append(1)
-            total_keywords.append(word)
+        if word in cleaned_title.lower(): # Checks if the keyword is in the cleaned title, ignoring case
+            num_keywords.append(1) # Adds 1 to the num_keywords list if present
+            total_keywords.append(word) 
         else:
-            num_keywords.append(0)
+            num_keywords.append(0) # Adds 0 to the num_keywords list if not present
     return sum(num_keywords)
 
 
