@@ -12,28 +12,16 @@ from load import load
 from config import DB_PATH, DEFAULT_BATCH_SIZE
 
 
-
-
-
-"""
-this function is the top-level orchestrator for the full pipeline.
-
-what this function should do:
-    call extract() to get raw posts
-    call transform() to clean and engineer features
-    call load() to write to sqlite
-    return the transformed DataFrame
-"""
-
+# This function is the top-level orchestrator for the full pipeline.
 def run_pipeline(subreddit: str = "UCDavis",
                  sort: str = "new",
                  batch_size: int = DEFAULT_BATCH_SIZE,
                  resume: bool = True,
                  db_path: str = DB_PATH) -> pd.DataFrame:
-    extract(subreddit=subreddit, sort=sort, batch_size=batch_size, resume=resume)
-    transformed_df = transform(db_path=db_path)
-    load(transformed_df, db_path=db_path)
-    return transformed_df
+    extract(subreddit=subreddit, sort=sort, batch_size=batch_size, resume=resume) # Gets the raw posts
+    transformed_df = transform(db_path=db_path) # Clean and engineer features
+    load(transformed_df, db_path=db_path) # Write sqlite
+    return transformed_df # Return transformer DataFrame
 
 
 
