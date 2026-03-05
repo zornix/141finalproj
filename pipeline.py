@@ -44,7 +44,7 @@ def display_output(df: pd.DataFrame) -> None:
 
     for row in df.iterrows():
         print(f"Title: {row['title']}")
-        print(f"Time Stamp: {row['updated_utc']}")
+        print(f"Timestamp: {row['updated_utc']}")
         print(f"Time Category: {row['time_category']}")
         print(f"Day Posted: {row['day_posted']}")
         print(f"Title Length: {row['title_length']}")
