@@ -33,21 +33,10 @@ def clean_text(text: str) -> str | None:
 
 # This function will detect if a post has an image / video and return 1 or 0.
 def has_media(post_data: dict) -> dict:
-    result = {"image": 0, "video": 0}
-    
     try:
-        # checks for image
-        if post_data.get("post_hint") == "image":
-            result["image"] = 1
-        else:
-            preview = post_data.get("preview")
-            if preview and preview.get("images"):
-                result["image"] = 1
-        
-        # Check for video
-        if post_data.get("is_video"):
-            result["video"] = 1
-
+        has_media = post_data.get("preview")
+        has_media = post_data.get("images")
+            return 1
     except:
         print("Media error")
         return None
@@ -189,7 +178,7 @@ def transform_post(post_data: dict) -> dict:
     return {
         "id": post_data['id'],
         # time
-        "Timestamp": hours,
+        "timestamp": hours,
         "time_category": post_time_category,
         "day_posted": day_posted,
         # title info
