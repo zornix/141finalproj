@@ -17,6 +17,7 @@ this function will create the table if it doesn't exist in the db.
 takes in a connection to the db and creates the table with the needed schema
 """
 
+# This function creates a table in the database if it does not already exists in db. 
 def create_table(conn: sqlite3.Connection) -> None:
     cur = conn.execute(f"""CREATE TABLE IF NOT EXISTS {TABLE_NAME}(
                     id varchar(255),
@@ -43,14 +44,8 @@ def create_table(conn: sqlite3.Connection) -> None:
     conn.commit()
    
 
-
-
-"""
-this function will add every row from the transformed DataFrame to the posts table.
-
-cast integer features to int beforehand, so the db stores them correctly
-"""
-
+# This function adds rows from the transformed DataFrame to the posts table in the database.
+# cast integer features to int beforehand, so the db stores them correctly
 def add_rows(conn: sqlite3.Connection, df: pd.DataFrame) -> None:
     # TODO: implement
     #conn.execute(f"""ALTER TABLE ADD ROW in df""")
