@@ -49,25 +49,17 @@ def add_rows(conn: sqlite3.Connection, df: pd.DataFrame) -> None:
     conn.commit()
     pass
 
-
-
-"""
-this is the top-level orchestrator function for the load stage
-
-check if the dataframe is empty
-create table if it doesnt exist, upsert the data, print a summary
-
-"""
+# This function takes DataFrame and loads it into the database. 
 def load(df: pd.DataFrame, db_path: str = DB_PATH) -> None:
     if df.empty:
         print("Dataframe is empty.")
         return
     conn = sqlite3.connect(db_path)
-    create_table(conn, df)
-    add_rows(conn, df)
-    cur = conn.execute(f"SELECT * FROM {TABLE_NAME} LIMIT 5")
+    create_table(conn, df) # Create the table if it doesn't exist
+    add_rows(conn, df) # Adds the rows from the df to the table
+    cur = conn.execute(f"SELECT * FROM {TABLE_NAME} LIMIT 5") 
     rows = cur.fetchall()
     for row in rows:
-        print(row)
+        print(row) 
     conn.close()
     pass
