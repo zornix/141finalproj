@@ -148,12 +148,14 @@ def compute_engagement_ratio(num_comments: int, upvotes: int) -> float:
 #Getting number of keywords
 total_keywords = []
 def count_keywords(cleaned_title: str) -> int:
+    if cleaned_title is None:
+        return 0
     keywords = ["cheeto", "housing", "taps", "silo", "unitrans", "professor", "curve", "ship", "waitlist"]
     num_keywords = []
     for word in keywords:
         if word in cleaned_title.lower(): # Checks if the keyword is in the cleaned title, ignoring case
             num_keywords.append(1) # Adds 1 to the num_keywords list if present
-            total_keywords.append(word) 
+            total_keywords.append(word)
         else:
             num_keywords.append(0) # Adds 0 to the num_keywords list if not present
     return sum(num_keywords)
@@ -171,6 +173,7 @@ def transform_post(post_data: dict) -> dict:
 
     updated_utc = post_data.get("created_utc") #need to make this a normal timestamp
     num_comments = post_data.get("num_comments", 0)
+    upvotes = post_data.get("ups", 0)
 
     # variables related to the title
     title_length = compute_title_length(clean_title)
@@ -187,7 +190,7 @@ def transform_post(post_data: dict) -> dict:
     selftext_words = compute_title_word_count(clean_selftext)
 
     # variables related to the time posted and engagement
-    time_category = time_category(updated_utc)
+    post_time_category = time_category(updated_utc)
     day_posted = compute_day_of_week(updated_utc)
 
     question = is_question(clean_title)
@@ -196,7 +199,7 @@ def transform_post(post_data: dict) -> dict:
         "id": post_data['id'],
         # time
         "timestamp": updated_utc,
-        "time_category": time_category,
+        "time_category": post_time_category,
         "day_posted": day_posted,
         # title info
         "title": clean_title,
@@ -224,10 +227,10 @@ def transform_post(post_data: dict) -> dict:
 def transform(raw_posts: list[dict]) -> pd.DataFrame:
     if not raw_posts:
         return pd.DataFrame()
-    
+
     transformed_posts = []
     for posts in raw_posts:
-        transform_posts.append(transform_post(posts))
+        transformed_posts.append(transform_post(posts))
 
     return pd.DataFrame(transformed_posts)
     pass

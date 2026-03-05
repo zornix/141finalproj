@@ -110,7 +110,7 @@ def extract() -> list[dict]:
         return []
 
 
-    data = [post for post in listdata if is_old_enough(post['data'])]
+    data = [post['data'] for post in listdata if is_old_enough(post['data'])]
     print(f"Removed {len(listdata)-len(data)} post that were not old enough.")
 
 

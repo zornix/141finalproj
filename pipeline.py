@@ -18,9 +18,9 @@ def run_pipeline(subreddit: str = "UCDavis",
                  batch_size: int = DEFAULT_BATCH_SIZE,
                  resume: bool = True,
                  db_path: str = DB_PATH) -> pd.DataFrame:
-    extract(subreddit=subreddit, sort=sort, batch_size=batch_size, resume=resume) # Gets the raw posts
-    transformed_df = transform(db_path=db_path) # Clean and engineer features
-    load(transformed_df, db_path=db_path) # Write sqlite
+    raw_posts = extract() # Gets the raw posts
+    transformed_df = transform(raw_posts) # Clean and engineer features
+    load(transformed_df, DB_PATH) # Write sqlite
     return transformed_df # Return transformer DataFrame
 
 
@@ -69,7 +69,7 @@ def display_output(df: pd.DataFrame) -> None:
 
 
 # Scrape 100 new posts, transform them, and load into SQLite
-df = run_pipeline(subreddit="UCDavis", sort="new", batch_size=100)
+df = run_pipeline()
 
-# Start fresh (ignore saved cursor)
-df = run_pipeline(subreddit="UCDavis", resume=False)
+# # Start fresh (ignore saved cursor)
+# df = run_pipeline(subreddit="UCDavis", resume=False)
