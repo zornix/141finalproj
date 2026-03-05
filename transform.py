@@ -32,16 +32,12 @@ def clean_text(text: str) -> str | None:
 # DETECTION HELPERS
 
 # This function will detect if a post has an image / video and return 1 or 0.
-def has_media(post_data: dict) -> dict:
-    try:
-        has_media = post_data.get("preview")
-        has_media = post_data.get("images")
+def has_media(post_data: dict) -> int:
+    preview = post_data.get("preview")
+    if preview and preview.get("images"):
         return 1
-    except:
-        print("Media error")
-        return None
-    
-    return result
+    else:
+        return 0
 
 #A self-post is a post that has no link to a website, image, or video, but instead only contains text.
 # This function will detect if a post is a self post or not and return 1 or 0.
