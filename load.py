@@ -18,24 +18,30 @@ takes in a connection to the db and creates the table with the needed schema
 """
 
 def create_table(conn: sqlite3.Connection) -> None:
-    # TODO: implement
     cur = conn.execute(f"""CREATE TABLE IF NOT EXISTS {TABLE_NAME}(
                     id varchar(255),
+                    timestamp float,
+                    time_category varchar(255),
+                    day_posted varchar(255),  
                     title varchar(255),
+                    title_length int,
+                    title_words int,
                     selftext varchar(255),
-                    author varchar(255),
-                    timestamp varchar(255),
+                    selftext_length int,
+                    selftext_words int,
+                    image int,
+                    video int,
+                    has_attachment int,
+                    has_flair int,
+                    flair_text varchar(255),
+                    has_question int,      
                     upvotes int,
-                    upvote_ratio int,
-                    numcomments int,
-                    spoiler int,
-                    flair varchar(255),
-                    has_Image int)""")
-
+                    upvote_ratio float,
+                    engagement_ratio float,
+                    num_keywords int)""")
+    
     conn.commit()
-
-
-
+   
 
 
 
