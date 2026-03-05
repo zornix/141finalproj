@@ -49,7 +49,7 @@ def display_output(df: pd.DataFrame) -> None:
         print(f"Day Posted: {row['day_']}")
         print(f"Title Length: {row['title_length']}")
         print(f"Title Number of Words: {row['title_words']}")
-        print(f"Text: {row['text']}")
+        print(f"Text: {row['selftext']}")
         print(f"Text Length: {row['selftext_length']}")
         print(f"Text Number of Words: {row['selftext_words']}")
         print(f"Image: {row['image']}")

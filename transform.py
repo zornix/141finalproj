@@ -166,7 +166,7 @@ def count_keywords(cleaned_title: str) -> int:
 def transform_post(post_data: dict) -> dict:
     #retrieve the data we scraped and cleaned and place it into a variable
     clean_title = clean_text(post_data.get("title"))
-    clean_selftext = clean_text(post_data.get("text"))
+    clean_selftext = clean_text(post_data.get("selftext"))
     num_keywords = count_keywords(clean_title)
 
     updated_utc = post_data.get("created_utc") #need to make this a normal timestamp
@@ -204,7 +204,7 @@ def transform_post(post_data: dict) -> dict:
         "title_length": title_length,
         "title_words": title_words,
         # body text info
-        "text": clean_selftext,
+        "selftext": clean_selftext,
         "selftext_length": selftext_length,
         "selftext_words": selftext_words,
         "image": post_image,

@@ -22,7 +22,7 @@ def create_table(conn: sqlite3.Connection) -> None:
                     title varchar(255),
                     title_length int,
                     title_words int,
-                    text varchar(255),
+                    selftext varchar(255),
                     selftext_length int,
                     selftext_words int,
                     image int,
