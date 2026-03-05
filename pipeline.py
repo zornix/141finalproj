@@ -46,7 +46,16 @@ what this function should do:
     handle empty DataFrames gracefully
 """
 def display_output(df: pd.DataFrame) -> None:
-    # TODO: implement
+    for i in df.iterrows():
+        print(f"Title: {row['title']}")
+        print(f"Upvotes: {row['upvotes']}")
+        print(f"Time Category: {row['time_category']}")
+        print(f"Day Posted: {row['day_']}")
+        print(f"Image: {row['title']}")
+        print(f"Number of Keywords: {row['title']}")
+        print(f"Engagement Ratio: {row['title']}")
+        print(f"Title: {row['title']}")
+
     pass
 
 
