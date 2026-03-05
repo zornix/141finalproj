@@ -33,11 +33,26 @@ def clean_text(text: str) -> str | None:
 
 # This function will detect if a post has an image / video and return 1 or 0.
 def has_media(post_data: dict) -> int:
-    preview = post_data.get("preview")
-    if preview and preview.get("images"):
-        return 1
-    else:
+    result = {"image": 0, "video": 0}
+
+    try:
+        # checks for image
+        if post_data.get("post_hint") == "image":
+            result["image"] = 1
+        else:
+            preview = post_data.get("preview")
+            if preview and preview.get("images"):
+                result["image"] = 1
+
+        # Check for video
+        if post_data.get("is_video"):
+            result["video"] = 1
+
+    except:
+        print("Media error")
         return 0
+
+    return int((result["image"] + result["video"]) > 0)
 
 #A self-post is a post that has no link to a website, image, or video, but instead only contains text.
 # This function will detect if a post is a self post or not and return 1 or 0.
@@ -156,7 +171,8 @@ def transform_post(post_data: dict) -> dict:
     question = is_question(clean_title)
 
     # variables related to the body of text
-    post_media = has_media(post_data),
+    post_media = has_media(post_data)
+
     post_attch = has_attachment(post_data)
     post_flair = has_flair(post_data)
 

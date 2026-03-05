@@ -1,0 +1,4 @@
+#ignore db file, cursor_state and pycache
+/__pycache__/
+cursor_state.json
+reddit_posts.db
