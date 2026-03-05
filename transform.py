@@ -157,7 +157,6 @@ def transform_post(post_data: dict) -> dict:
 
     # variables related to the body of text
     post_media = has_media(post_data),
-
     post_attch = has_attachment(post_data)
     post_flair = has_flair(post_data)
 
