@@ -30,8 +30,10 @@ def run_pipeline(subreddit: str = "UCDavis",
                  batch_size: int = DEFAULT_BATCH_SIZE,
                  resume: bool = True,
                  db_path: str = DB_PATH) -> pd.DataFrame:
-    # TODO: implement
-    pass
+    extract(subreddit=subreddit, sort=sort, batch_size=batch_size, resume=resume)
+    transformed_df = transform(db_path=db_path)
+    load(transformed_df, db_path=db_path)
+    return transformed_df
 
 
 
