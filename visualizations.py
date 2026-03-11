@@ -32,6 +32,12 @@ for col in num_columns:
     numerical_summary(col)
     
 # Correlation heatmat between variables and our response
+def heatmap(table):
+    newTable = table.select_dtypes(include='number') #get rid of strings
+    corr = newTable.corr() # gets correlation of only numeric value in originall table
+    plt.figure(figsize=(11,5))
+    sns.heatmap(corr, annot=True)
+    return plt.show()
 
 # Distribution of upvotes per posts: summary statistics
 
