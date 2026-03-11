@@ -35,7 +35,7 @@ for col in num_columns:
 def heatmap(table):
     newTable = table.select_dtypes(include='number') #get rid of strings
     corr = newTable.corr() # gets correlation of only numeric value in originall table
-    plt.figure(figsize=(11,5))
+    plt.figure(figsize=(11,7))
     sns.heatmap(corr, annot=True)
     return plt.show()
 
