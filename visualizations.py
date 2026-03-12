@@ -75,3 +75,16 @@ def daysort_upvotes_vs_comments():
     plt.grid(alpha=0.3)
 
     plt.show()
+
+#Upvotes vs variables
+    def var_up(df):
+        vars = ["title_words", "selftext_words", "num_keywords", "num_comments"]
+        for var in vars:
+            upvotes_log = np.log2(df["upvotes"]+1)
+            plt.figure()
+            sns.set_theme(style = 'white', palette = 'Set2') 
+            plot = sns.scatterplot(
+                data=df,
+                x=var,
+                y=upvotes_log,
+            )
