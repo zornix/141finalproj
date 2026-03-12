@@ -41,6 +41,8 @@ def heatmap(table):
     plt.show()
 heatmap(reddit_posts)
 
+heatmap(reddit_posts2)
+
 #Summary statistics
 plt.figure(figsize=(12, 6))
 plot = sns.boxplot(
