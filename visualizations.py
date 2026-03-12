@@ -5,6 +5,7 @@ import seaborn as sns
 import sqlite3
 conn = sqlite3.connect("reddit_posts.db")
 reddit_posts = pd.read_sql_query("SELECT * FROM posts", conn)
+reddit_posts2 = pd.read_sql_query("SELECT * FROM posts WHERE upvotes > 50 AND upvotes < 1000", conn)
 
 # Summary Statistics
 cat_columns = ['time_category', 'day_posted', 'media', 'attachment', 'flair', 'question']
