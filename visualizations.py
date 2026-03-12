@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 import sqlite3
 conn = sqlite3.connect("reddit_posts.db")
+#Create two dbs, one with all posts and one with posts with upvotes between 50 and 1000 to remove outliers and dense numbers for better visualizations
 reddit_posts = pd.read_sql_query("SELECT * FROM posts", conn)
 reddit_posts2 = pd.read_sql_query("SELECT * FROM posts WHERE upvotes > 50 AND upvotes < 1000", conn)
 
