@@ -60,8 +60,9 @@ def daysort_upvotes_vs_comments():
     for day, marker in markers.items():
         day_reddit_posts = reddit_posts[reddit_posts["day_posted"] == day]
         plt.scatter(
-            day_reddit_posts["num_comments"],
-            day_reddit_posts["upvotes"],
+            plot_df = reddit_posts[reddit_posts["upvotes"].between(50, 1000)]
+            plot_df["num_comments"],
+            plot_df["upvotes"],
             marker=marker,
             alpha=0.7,
             s=70,
@@ -74,6 +75,28 @@ def daysort_upvotes_vs_comments():
 
     plt.legend(title="Day Posted", bbox_to_anchor=(1.05,1))
     plt.grid(alpha=0.3)
+
+    plt.show()
+
+# effect of title length on upvotes removing outliers and removing dense numbers
+def titlelength_upvotes():
+    plt.figure(figsize=(8,6))
+    # plot_df["log_upvotes"] = np.log2(df["upvotes"]+1) for log
+    plot_df = reddit_posts[reddit_posts["upvotes"].between(50, 1000)]
+    
+    plt.scatter(
+        plot_df["title_length"],
+        plot_df["upvotes"],
+        marker="*",
+        alpha=0.7,
+        s=80
+    )
+
+    plt.title("Title Length Effect on Upvotes")
+    plt.xlabel("Title Length")
+    plt.ylabel("Upvotes")
+
+    plt.grid(True, linestyle="--", alpha=0.3)
 
     plt.show()
 
