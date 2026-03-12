@@ -95,6 +95,7 @@ def var_up(df):
 
         plt.show()
         plt.close() 
+var_up(reddit_posts2)
 
 #Upvotes vs Comments Categorized on Time of Day:
 plt.figure()
