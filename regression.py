@@ -6,16 +6,22 @@ import statsmodels.api as sm
 from config import DB_PATH, TABLE_NAME
 
 
+
+# This function loads on database and creates a pandas df
 def load_data():
     conn = sqlite3.connect(DB_PATH)
     df = pd.read_sql_query(f"SELECT * FROM {TABLE_NAME}", conn)
     conn.close()
     return df
 
-
+# Features are the variables from table - numerically
 FEATURES = ["time_category", "day_posted", "title_words", "selftext_words", "attachment", "flair", "question", "num_keywords"]
 
+# att, selftextwords and qs based on multilinear 
 
+
+
+# This function transform the data using log
 def prepare_training_data(df: pd.DataFrame):
 
     y = np.log2(df["upvotes"]+1) #log transformation
@@ -40,7 +46,7 @@ def run_regression():
         return None
 
     X, y = prepare_training_data(df)
-    model = sm.OLS(y, X).fit()
+    model = sm.OLS(y, X).fit() #multilinear regression
     print(model.summary())
     return model
 
