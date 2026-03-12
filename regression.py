@@ -69,3 +69,4 @@ def run_lasso():
     print('Mean MAE: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
     model.fit(X, y)
     print(model.coef_)
+run_lasso()
