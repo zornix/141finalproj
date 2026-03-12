@@ -41,7 +41,17 @@ def heatmap(table):
     plt.show()
 heatmap(reddit_posts)
 
-# Distribution of upvotes per posts: summary statistics
+#Summary statistics
+plt.figure(figsize=(12, 6))
+plot = sns.boxplot(
+    data=reddit_posts2,
+    x="time_category",
+    y="upvotes",
+)
+plt.xticks(rotation=45)
+plt.show()
+
+
 
 # Scatter plot of upvotes vs. comments sorted by the day of the week
 def daysort_upvotes_vs_comments():
