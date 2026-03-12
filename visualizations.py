@@ -5,6 +5,7 @@ import seaborn as sns
 import sqlite3
 conn = sqlite3.connect("reddit_posts.db")
 reddit_posts = pd.read_sql_query("SELECT * FROM posts", conn)
+reddit_posts2 = pd.read_sql_query("SELECT * FROM posts WHERE upvotes > 50 AND upvotes < 1000", conn)
 
 # Summary Statistics
 cat_columns = ['time_category', 'day_posted', 'media', 'attachment', 'flair', 'question']
@@ -37,8 +38,8 @@ def heatmap(table):
     corr = newTable.corr() # gets correlation of only numeric value in originall table
     plt.figure(figsize=(11,7))
     sns.heatmap(corr, annot=True)
-    plt.savefig("../output/heatmap.png")
     plt.show()
+heatmap(reddit_posts)
 
 # Distribution of upvotes per posts: summary statistics
 
@@ -98,3 +99,38 @@ def titlelength_upvotes():
     plt.grid(True, linestyle="--", alpha=0.3)
 
     plt.show()
+
+#Upvotes vs variables
+def var_up(df):
+    variables = ["title_words", "selftext_words", "num_keywords", "num_comments"]
+    for var in variables:
+        upvotes_log = np.log2(df["upvotes"]+1)
+        plt.figure()
+        sns.set_theme(style = 'white', palette = 'Set2') 
+        plot = sns.scatterplot(
+            data=df,
+            x=var,
+            y= upvotes_log,
+        )
+        plot.set_title(f"Upvotes vs {var}")
+        plot.set_xlabel("upvotes")
+        plot.set_ylabel(var)
+
+        plt.show()
+        plt.close() 
+
+#Upvotes vs Comments Categorized on Time of Day:
+plt.figure()
+sns.set_theme(style = 'white', palette = 'Set2') 
+plot = sns.scatterplot(
+    data= reddit_posts2,
+    x="upvotes",
+    y="num_comments",
+    hue="time_category",
+    style="time_category"
+)
+plot.set_title("Reddit Post Performance by Time of Upload")
+plot.set_xlabel("upvotes")
+plot.set_ylabel("comments")
+plt.show()
+plt.close() 
