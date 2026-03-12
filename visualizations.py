@@ -105,7 +105,7 @@ def titlelength_upvotes():
 
 #Upvotes vs variables
 def var_up(df):
-    variables = ["title_words", "selftext_words", "num_keywords", "num_comments"]
+    variables = ["title_length","title_words", "selftext_words", "num_keywords", "num_comments"]
     for var in variables:
         upvotes_log = np.log2(df["upvotes"]+1)
         plt.figure()
