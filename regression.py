@@ -66,7 +66,7 @@ from sklearn.linear_model import Lasso
 
 def run_lasso():
     data = load_data()
-    X = data.loc[:, ["title_words", "selftext_words", "attachment", "flair", "question", "num_keywords", "num_comments"]]
+    X = data.loc[:, ["title_words", "selftext_words", "attachment", "flair", "question", "num_keywords"]]
     y = np.log2(data.loc[:, 'upvotes']+1)
     model = Lasso(alpha=0.1)
     cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1)
