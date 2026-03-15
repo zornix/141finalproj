@@ -1,4 +1,4 @@
-#  141 Final Project
+#  STA 141B Final Project
 
 Which features of a Reddit post on r/UCDavis correlate with the highest engagement (measured in number of upvotes)?
 
