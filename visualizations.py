@@ -35,15 +35,16 @@ for col in num_columns:
     numerical_summary(col)
 
 # Correlation heatmat between variables and our response
-def heatmap(table):
+def heatmap(table, filename):
     newTable = table.select_dtypes(include='number') #get rid of strings
     corr = newTable.corr() # gets correlation of only numeric value in originall table
     plt.figure(figsize=(11,7))
     sns.heatmap(corr, annot=True)
+    plt.savefig(f"visualizations/{filename}")
     plt.show()
-heatmap(reddit_posts)
+heatmap(reddit_posts, "Correlation_Heatmap")
 
-heatmap(reddit_posts2)
+heatmap(reddit_posts2, "Correlation_Heatmap_2")
 
 #Summary statistics
 plt.figure(figsize=(12, 6))
