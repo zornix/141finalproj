@@ -15,17 +15,21 @@ num_columns = ['timestamp', 'title_length', 'title_words', 'selftext_length', 's
                'upvotes', 'upvote_ratio', 'num_comments', 'num_keywords', 'score']
 
 def numerical_summary(column):
-    sns.displot(reddit_posts, x=column, kde=True)
+    plt.figure()
+    sns.histplot(reddit_posts[column], kde=True)
     plt.title(f'Distribution of {column}')
+    plt.savefig(f"visualizations/{column}_summary.png")
     plt.show()
-
+    plt.close()
     numerical_stats = reddit_posts[column].describe()
     print(numerical_stats)
 def categorical(column):
+    plt.figure()
     sns.countplot(x=column, data=reddit_posts)
     plt.title(f'Distribution of {column}')
+    plt.savefig(f"visualizations/{column}_summary.png")
     plt.show()
-
+    plt.close()
     categorical_stats = reddit_posts[column].describe()
     print(categorical_stats)
 
@@ -133,9 +137,9 @@ def var_up(df):
             y= upvotes_log,
         )
         plot.set_title(f"Upvotes vs {var}")
-        plot.set_xlabel("upvotes")
-        plot.set_ylabel(var)
-
+        plot.set_xlabel(var)
+        plot.set_ylabel("upvotes (log scale)")
+        plt.savefig(f"visualizations/{var}_vs_upvotes.png")
         plt.show()
         plt.close()
 var_up(reddit_posts2)
@@ -153,5 +157,6 @@ plot = sns.scatterplot(
 plot.set_title("Reddit Post Performance by Time of Upload")
 plot.set_xlabel("upvotes")
 plot.set_ylabel("comments")
+plt.savefig("visualizations/upvotes_comments_time.png")
 plt.show()
 plt.close()
