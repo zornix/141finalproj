@@ -1,9 +1,12 @@
 import sqlite3
-from xml.parsers.expat import model
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
 from config import DB_PATH, TABLE_NAME
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+from statsmodels.stats.diagnostic import het_breuschpagan
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 
 
@@ -14,17 +17,38 @@ def load_data():
     conn.close()
     return df
 
-# Features are the variables from table - numerically
+# features are the variables from table
 FEATURES = ["time_category", "day_posted", "title_words", "selftext_words", "attachment", "flair", "question", "num_keywords"]
 
-# att, selftextwords and qs based on multilinear 
+
+
+def ols_diagnostics(model, X):
+    residuals = model.resid
+    fitted = model.fittedvalues
+
+    # residual vs fitted plot + Q-Q plot
+    fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+    axes[0].scatter(fitted, residuals, alpha=0.4, edgecolors="k", s=20)
+    axes[0].axhline(0, color="red", linestyle="--")
+    axes[0].set_xlabel("Fitted values")
+    axes[0].set_ylabel("Residuals")
+    axes[0].set_title("Residuals vs Fitted")
+
+    stats.probplot(residuals, dist="norm", plot=axes[1])
+    axes[1].set_title("Normal Q-Q Plot")
+
+    plt.tight_layout()
+    plt.savefig("visualizations/ols_diagnostics.png", dpi=150)
+    plt.close()
+    print("\nDiagnostic plots saved to visualizations/ols_diagnostics.png")
 
 
 
 # This function transform the data using log
 def prepare_training_data(df: pd.DataFrame):
 
-    y = np.log2(df["upvotes"]+1) #log transformation
+    y = np.log2(df["upvotes"]+1) #log transformation worked better
     #y = np.sqrt(df["upvotes"]) #square root transformation
     X = df[FEATURES].copy()
 
@@ -46,7 +70,13 @@ def run_regression():
         return None
 
     X, y = prepare_training_data(df)
-    model = sm.OLS(y, X).fit() #multilinear regression
+    model = sm.OLS(y, X).fit()
+    ols_diagnostics(model, X)
+
+    # robust standard errors
+    robust_model = model.get_robustcov_results('HC3')
+    print(robust_model.summary())
+
     print(model.summary())
     return model
 
@@ -78,6 +108,6 @@ def run_lasso():
     "Variable": X.columns,
     "Coefficient": model.coef_
     })
-    print(coef_table)   
+    print(coef_table)
     print(f"intercept: {model.intercept_}")
 run_lasso()

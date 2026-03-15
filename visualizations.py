@@ -4,13 +4,14 @@ import pandas as pd
 import seaborn as sns
 import sqlite3
 conn = sqlite3.connect("reddit_posts.db")
-#Create two dbs, one with all posts and one with posts with upvotes between 50 and 1000 to remove outliers and dense numbers for better visualizations
+
+#Create two DataFrames, one with all posts and one with posts with upvotes between 50 and 1000 to remove outliers and dense numbers for better visualizations
 reddit_posts = pd.read_sql_query("SELECT * FROM posts", conn)
 reddit_posts2 = pd.read_sql_query("SELECT * FROM posts WHERE upvotes > 50 AND upvotes < 1000", conn)
 
 # Summary Statistics
 cat_columns = ['time_category', 'day_posted', 'media', 'attachment', 'flair', 'question']
-num_columns = ['timestamp', 'title_length', 'title_words', 'selftext_length', 'selftext_words', 
+num_columns = ['timestamp', 'title_length', 'title_words', 'selftext_length', 'selftext_words',
                'upvotes', 'upvote_ratio', 'num_comments', 'num_keywords', 'score']
 
 def numerical_summary(column):
@@ -32,7 +33,7 @@ for col in cat_columns:
     categorical(col)
 for col in num_columns:
     numerical_summary(col)
-    
+
 # Correlation heatmat between variables and our response
 def heatmap(table):
     newTable = table.select_dtypes(include='number') #get rid of strings
@@ -75,7 +76,7 @@ def daysort_upvotes_vs_comments():
             (reddit_posts["day_posted"] == day) &
             (reddit_posts["upvotes"].between(50, 1000))
         ]
-        
+
         plt.scatter(
             day_plot_df["num_comments"],
             day_plot_df["upvotes"],
@@ -99,7 +100,7 @@ def titlelength_upvotes():
     plt.figure(figsize=(8,6))
     # plot_df["log_upvotes"] = np.log2(df["upvotes"]+1) for log
     plot_df = reddit_posts[reddit_posts["upvotes"].between(50, 1000)]
-    
+
     plt.scatter(
         plot_df["title_length"],
         plot_df["upvotes"],
@@ -122,7 +123,7 @@ def var_up(df):
     for var in variables:
         upvotes_log = np.log2(df["upvotes"]+1)
         plt.figure()
-        sns.set_theme(style = 'white', palette = 'Set2') 
+        sns.set_theme(style = 'white', palette = 'Set2')
         plot = sns.scatterplot(
             data=df,
             x=var,
@@ -133,12 +134,12 @@ def var_up(df):
         plot.set_ylabel(var)
 
         plt.show()
-        plt.close() 
+        plt.close()
 var_up(reddit_posts2)
 
 #Upvotes vs Comments Categorized on Time of Day:
 plt.figure()
-sns.set_theme(style = 'white', palette = 'Set2') 
+sns.set_theme(style = 'white', palette = 'Set2')
 plot = sns.scatterplot(
     data= reddit_posts2,
     x="upvotes",
@@ -150,4 +151,4 @@ plot.set_title("Reddit Post Performance by Time of Upload")
 plot.set_xlabel("upvotes")
 plot.set_ylabel("comments")
 plt.show()
-plt.close() 
+plt.close()
